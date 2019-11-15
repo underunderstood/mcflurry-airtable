@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/digidem/airtable-github-export#readme"
 
-  "scripts": {
+  "scripts" {
   "start": "node index.js",
   "build": "webpack"
 }
