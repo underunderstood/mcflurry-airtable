@@ -42,7 +42,7 @@ var tasks = config.tables.map(function (tableName) {
     // Ensure properties of output are set in the same order
     // otherwise they are set async and may change order, which
     // results in unhelpful diffs in Github
-    output[tableName] = null
+    // output[tableName] = null
 
     base(tableName).select().eachPage(page, done)
 
