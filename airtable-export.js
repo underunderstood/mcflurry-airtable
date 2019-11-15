@@ -44,7 +44,7 @@ var tasks = config.tables.map(function (tableName) {
     // results in unhelpful diffs in Github
     output[tableName] = null
 
-    base(tableName).select().eachPage(page, done)
+  //  base(tableName).select().eachPage(page, done)
 
     function page (records, next) {
       // This function will get called for each page of records.
