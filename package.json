@@ -28,4 +28,10 @@
     "url": "https://github.com/digidem/airtable-github-export/issues"
   },
   "homepage": "https://github.com/digidem/airtable-github-export#readme"
+
+  "scripts": {
+  "start": "node index.js",
+  "build": "webpack"
+}
+
 }
