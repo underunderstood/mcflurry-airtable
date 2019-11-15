@@ -79,7 +79,8 @@ var tasks = config.tables.map(function (tableName) {
         type: 'FeatureCollection',
         features: data
       }
-      output[tableName] = featureCollection
+      //output[tableName] = featureCollection
+      output[] = featureCollection
       cb()
     }
   }
