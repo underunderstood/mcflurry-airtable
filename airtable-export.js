@@ -37,7 +37,7 @@ var base = new Airtable({apiKey: config.airtableToken}).base(config.base)
 var output = {}
 
 var tasks = config.tables.map(function (tableName) {
-    return function (cb) {
+  return function (cb) {
     var data = []
     // Ensure properties of output are set in the same order
     // otherwise they are set async and may change order, which
