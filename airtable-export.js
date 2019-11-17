@@ -5,9 +5,9 @@ var geojsonhint = require('@mapbox/geojsonhint')
 var deepEqual = require('deep-equal')
 var rewind = require('geojson-rewind')
 var debug = require('debug')('airtable-github-export')
-​
+
 require('dotenv').config()
-​
+
 var config = {
   tables: process.env.TABLES.split(','),
   githubToken: process.env.GITHUB_TOKEN,
@@ -18,10 +18,10 @@ var config = {
   branches: process.env.GITHUB_BRANCH ? process.env.GITHUB_BRANCH.split(',') : ['master'],
   filename: process.env.GITHUB_FILENAME || 'data.json'
 }
-​
+
 var CREATE_MESSAGE = '[AIRTABLE-GITHUB-EXPORT] create ' + config.filename
 var UPDATE_MESSAGE = '[AIRTABLE-GITHUB-EXPORT] update ' + config.filename
-​
+
 var hubfsOptions = {
   owner: config.owner,
   repo: config.repo,
@@ -29,13 +29,13 @@ var hubfsOptions = {
     token: config.githubToken
   }
 }
-​
+
 var gh = Hubfs(hubfsOptions)
-​
+
 var base = new Airtable({apiKey: config.airtableToken}).base(config.base)
-​
+
 var output = {}
-​
+
 var tasks = config.tables.map(function (tableName) {
   return function (cb) {
     var data = []
@@ -44,9 +44,9 @@ var tasks = config.tables.map(function (tableName) {
     // results in unhelpful diffs in Github
     // CHANGED: since only one table, no need for placeholder
     // output[tableName] = null
-​
+
     base(tableName).select().eachPage(page, done)
-​
+
     function page (records, next) {
       // This function will get called for each page of records.
       records.forEach(function (record) {
@@ -74,7 +74,7 @@ var tasks = config.tables.map(function (tableName) {
       })
       next()
     }
-​
+
     function done (err) {
       if (err) return cb(err)
       var featureCollection = {
@@ -87,7 +87,7 @@ var tasks = config.tables.map(function (tableName) {
     }
   }
 })
-​
+
 parallel(tasks, function (err, result) {
   if (err) return onError(err)
   gh.readFile(config.filename, {ref: config.branches[0]}, function (err, data) {
@@ -109,7 +109,7 @@ parallel(tasks, function (err, result) {
     })
   })
 })
-​
+
 function ghWrite (filename, data, branches, message, cb) {
   var pending = branches.length
   branches.forEach(function (branch) {
@@ -125,12 +125,12 @@ function ghWrite (filename, data, branches, message, cb) {
     cb()
   }
 }
-​
+
 function onError (err) {
   console.error(err)
   process.exit(1)
 }
-​
+
 // Case insensitive record.get
 function get (record, fieldName) {
   if (typeof record.get(fieldName) !== 'undefined') {
@@ -141,7 +141,7 @@ function get (record, fieldName) {
     return record.get(fieldName.toUpperCase())
   }
 }
-​
+
 // Try to parse a geometry field if it is valid GeoJSON geometry
 function parseGeometry (geom) {
   if (!geom) return null
@@ -154,7 +154,7 @@ function parseGeometry (geom) {
   if (errors && errors.length) return null
   return geom
 }
-​
+
 // Check whether coordinates are valid
 function parseCoords (coords) {
   if (typeof coords[0] !== 'number' || typeof coords[1] !== 'number') return null
