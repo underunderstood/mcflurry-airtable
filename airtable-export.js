@@ -52,6 +52,7 @@ var tasks = config.tables.map(function () {
       records.forEach(function (record) {
         var feature = {
           type: 'Feature',
+       // MapBox doesn't play nice with the following 'id'
        // id: record._rawJson.id,
           properties: record._rawJson.fields || {}
         }
